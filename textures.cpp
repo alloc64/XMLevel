@@ -5,7 +5,7 @@
  ***********************************************************************/
 
 #include "./main.h"
-#include <directx/ddraw.h>
+#include "directx/ddraw.h"
 
 //#define _texdebug
 
@@ -221,6 +221,7 @@ TexData *Texture::LoadJPG(char *FileName) {
     jpeg_destroy_decompress(&cinfo);
 
     fclose(pFile);
+
     return pData;
 }
 
@@ -238,7 +239,7 @@ TexData *Texture::LoadXMT(char *FileName) {
     fread(&header, 3, 1, TexFile);
     if (header[0] != 'X' || header[1] != 'M' || header[2] != 'T') {
         printf("error: header isn't XMT! file %s has bad format!\n", FileName);
-        return false;
+        return nullptr;
     }
 
     fread(&width, sizeof(int), 1, TexFile);
@@ -250,7 +251,7 @@ TexData *Texture::LoadXMT(char *FileName) {
 
     if (!pTexData) {
         printf("error: cannot allocate memory for T texture!\n");
-        return false;
+        return nullptr;
     }
 
     fread(&pTexData->texels, size, 1, TexFile);
